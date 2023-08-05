@@ -1,6 +1,7 @@
 import "./App.css";
 import Logo from "./components/Logo/Logo";
 import Navigation from "./components/Navigation/Navigation";
+import ImgLinkForm from "./components/ImgLinkForm/ImgLinkForm";
 
 function App() {
   return (
@@ -8,6 +9,9 @@ function App() {
       <section className="mainNav">
         <Logo />
         <Navigation />
+      </section>
+      <section className="mainSection">
+        <ImgLinkForm />
       </section>
     </>
   );
