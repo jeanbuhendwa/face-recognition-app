@@ -2,6 +2,7 @@ import "./App.css";
 import Logo from "./components/Logo/Logo";
 import Navigation from "./components/Navigation/Navigation";
 import ImgLinkForm from "./components/ImgLinkForm/ImgLinkForm";
+import Rank from "./components/Rank/Rank";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Navigation />
       </section>
       <section className="mainSection">
+        <Rank />
         <ImgLinkForm />
       </section>
     </>
