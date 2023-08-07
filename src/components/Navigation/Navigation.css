@@ -1,0 +1,11 @@
+.nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav li {
+    list-style: none;
+    font-size: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
