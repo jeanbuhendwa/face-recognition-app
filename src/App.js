@@ -4,22 +4,23 @@ import Logo from "./components/Logo/Logo";
 import Navigation from "./components/Navigation/Navigation";
 import ImgLinkForm from "./components/ImgLinkForm/ImgLinkForm";
 import Rank from "./components/Rank/Rank";
+import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       input: "",
-      // IMAGE_URL: "",
+      IMAGE_URL: "",
     };
   }
 
   onInputChange = (event) => {
-    console.log(event.target.value);
+    this.setState({ input: event.target.value });
   };
 
   onButtonClick = () => {
-    // this.setState({ input: this.state.input });
+    this.setState({ IMAGE_URL: this.state.input });
     console.log("button clicked");
     // const inputValue = this.state.input;
     // this.setState({
@@ -31,8 +32,7 @@ class App extends React.Component {
     const USER_ID = "john23";
     const APP_ID = "testFace";
     const MODEL_ID = "face-detection";
-    const IMAGE_URL =
-      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Baloch_people_%284%29.jpg";
+    const IMAGE_URL = this.state.input;
 
     const raw = JSON.stringify({
       user_app_id: {
@@ -64,7 +64,9 @@ class App extends React.Component {
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) =>
+        console.log(result.outputs[0].data.regions[0].region_info.bounding_box)
+      )
       .catch((error) => console.log("API error:", error));
   };
 
@@ -81,6 +83,7 @@ class App extends React.Component {
             onInputChange={this.onInputChange}
             onButtonClick={this.onButtonClick}
           />
+          <FaceRecognition IMAGE_URL={this.state.IMAGE_URL} />
         </section>
       </>
     );
