@@ -12,8 +12,27 @@ class App extends React.Component {
     this.state = {
       input: "",
       IMAGE_URL: "",
+      box: {},
     };
   }
+
+  calculateFaceLocation = (data) => {
+    const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById("inputImage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: faceBox.left_col * width,
+      topRow: faceBox.top_row * height,
+      rightCol: width - faceBox.right_col * width,
+      bottomRow: height - faceBox.bottom_row * height,
+    };
+  };
+
+  displayFaceBox = (box) => {
+    console.log(box);
+    this.setState({ box: box });
+  };
 
   onInputChange = (event) => {
     this.setState({ input: event.target.value });
@@ -22,12 +41,7 @@ class App extends React.Component {
   onButtonClick = () => {
     this.setState({ IMAGE_URL: this.state.input });
     console.log("button clicked");
-    // const inputValue = this.state.input;
-    // this.setState({
-    //   IMAGE_URL: inputValue,
-    // });
 
-    // console.log(this.state.IMAGE_URL);
     const PAT = "f447eee4fd174578bfce293b901e2fe7";
     const USER_ID = "john23";
     const APP_ID = "testFace";
@@ -64,9 +78,7 @@ class App extends React.Component {
       requestOptions
     )
       .then((response) => response.json())
-      .then((result) =>
-        console.log(result.outputs[0].data.regions[0].region_info.bounding_box)
-      )
+      .then((result) => this.displayFaceBox(this.calculateFaceLocation(result)))
       .catch((error) => console.log("API error:", error));
   };
 
@@ -83,7 +95,10 @@ class App extends React.Component {
             onInputChange={this.onInputChange}
             onButtonClick={this.onButtonClick}
           />
-          <FaceRecognition IMAGE_URL={this.state.IMAGE_URL} />
+          <FaceRecognition
+            box={this.state.box}
+            IMAGE_URL={this.state.IMAGE_URL}
+          />
         </section>
       </>
     );
